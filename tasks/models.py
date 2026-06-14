@@ -37,9 +37,15 @@ class Task(models.Model):
         related_name="tasks",
     )
 
+    def __str__(self):
+        return f"{self.name} with deadline: {self.deadline}"
+
 
 class Position(models.Model):
-    task = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 
 class Worker(AbstractUser):
@@ -50,8 +56,7 @@ class Worker(AbstractUser):
     )
 
     class Meta:
-        ordering = ["username"]
+        ordering = ["position"]
 
     def __str__(self):
         return f"{self.position} - {self.username}({self.first_name} {self.last_name})"
-
