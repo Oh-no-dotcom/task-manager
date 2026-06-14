@@ -1,3 +1,5 @@
+from os import name
+
 from django.conf import settings
 from django.db import models
 
@@ -15,6 +17,7 @@ class PriorityChoices(models.TextChoices):
     MEDIUM = "MEDIUM", "Medium"
     LOW = "LOW", "Low"
 
+
 class Task(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
@@ -25,9 +28,17 @@ class Task(models.Model):
         choices=PriorityChoices.choices,
         default=PriorityChoices.MEDIUM,
     )
-    task_type = "TaskType"
+    task_type = models.ForeignKey(
+        TaskType,
+        on_delete=models.CASCADE,
+        related_name="tasks",
+    )
     assignees = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
         related_name="tasks",
     )
+
+
+class Position(models.Model):
+    task = models.CharField(max_length=255)
 
