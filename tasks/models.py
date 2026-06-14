@@ -1,6 +1,5 @@
-from os import name
-
 from django.conf import settings
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
@@ -41,4 +40,18 @@ class Task(models.Model):
 
 class Position(models.Model):
     task = models.CharField(max_length=255)
+
+
+class Worker(AbstractUser):
+    position = models.ForeignKey(
+        Position,
+        on_delete=models.CASCADE,
+        related_name="workers",
+    )
+
+    class Meta:
+        ordering = ["username"]
+
+    def __str__(self):
+        return f"{self.position} - {self.username}({self.first_name} {self.last_name})"
 
