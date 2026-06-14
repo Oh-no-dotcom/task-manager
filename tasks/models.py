@@ -6,3 +6,11 @@ class TaskType(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class PriorityChoices(models.TextChoices):
+    URGENT = "URGENT", "Urgent"
+    HIGH = "HIGH", "High"
+    MEDIUM = "MEDIUM", "Medium"
+    LOW = "LOW", "Low"
+
