@@ -25,6 +25,8 @@ SECRET_KEY = "django-insecure-)1!-4c&(%2ju9&xum71h_4$y1!))@w$3xw3!7fdbnjalq*bv^-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+ASSETS_ROOT = "/static/assets"
+
 ALLOWED_HOSTS = []
 
 
@@ -62,6 +64,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "tasks.context_processors.cfg_assets_root",
             ],
         },
     },
