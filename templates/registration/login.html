@@ -26,14 +26,10 @@
               <div class="card card-plain mt-8">
                 <div class="card-header pb-0 text-left bg-transparent">
                   <h3 class="font-weight-bolder text-info text-gradient">
-                    Soft UI Dashboard
+                    Task Manager
                   </h3>
                   <p class="mb-0">
-                    {% if msg %}
-                      <span class="text-danger">{{ msg | safe }}</span>
-                    {% else %}
-                      Add your credentials
-                    {% endif %}
+                    Enter your username and password
                   </p>
                 </div>
                 <div class="card-body">
@@ -41,6 +37,11 @@
                   <form role="form text-left" method="post" action="">
 
                     {% csrf_token %}
+                    {% if form.errors %}
+                      <div class="alert alert-danger">
+                        Invalid username or password.
+                      </div>
+                    {% endif %}
 
                     <label>Username</label>
                     <div class="mb-3">
@@ -70,7 +71,8 @@
             </div>
             <div class="col-md-6">
               <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
-                <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('{{ ASSETS_ROOT }}/img/curved-images/curved6.jpg')"></div>
+                <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6"
+                     style="background-image:url('{{ ASSETS_ROOT }}/img/curved-images/curved6.jpg')"></div>
               </div>
             </div>
           </div>
