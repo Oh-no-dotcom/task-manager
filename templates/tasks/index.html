@@ -18,8 +18,7 @@
                 <div class="numbers">
                   <p class="text-sm mb-0 text-capitalize font-weight-bold">Total tasks</p>
                   <h5 class="font-weight-bolder mb-0">
-                    $53,000
-                    <span class="text-success text-sm font-weight-bolder">+55%</span>
+                    {{ num_tasks }}
                   </h5>
                 </div>
               </div>
@@ -40,8 +39,7 @@
                 <div class="numbers">
                   <p class="text-sm mb-0 text-capitalize font-weight-bold">Completed tasks</p>
                   <h5 class="font-weight-bolder mb-0">
-                    2,300
-                    <span class="text-success text-sm font-weight-bolder">+3%</span>
+                    {{ completed_tasks }}
                   </h5>
                 </div>
               </div>
@@ -62,8 +60,7 @@
                 <div class="numbers">
                   <p class="text-sm mb-0 text-capitalize font-weight-bold">In progress tasks</p>
                   <h5 class="font-weight-bolder mb-0">
-                    +3,462
-                    <span class="text-danger text-sm font-weight-bolder">-2%</span>
+                    {{ in_progress_tasks }}
                   </h5>
                 </div>
               </div>
@@ -84,8 +81,7 @@
                 <div class="numbers">
                   <p class="text-sm mb-0 text-capitalize font-weight-bold">Overdue Tasks</p>
                   <h5 class="font-weight-bolder mb-0">
-                    $103,430
-                    <span class="text-success text-sm font-weight-bolder">+5%</span>
+                    {{ overdue_tasks }}
                   </h5>
                 </div>
               </div>
@@ -130,7 +126,7 @@
 {#    </div>#}
 {#  </div>#}
 
-  <div class="card">
+  <div class="card mt-4">
     <div class="card-header pb-0">
       <h6>Tasks</h6>
     </div>
@@ -140,10 +136,11 @@
         <table class="table align-items-center mb-0">
           <thead>
           <tr>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Companies</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Members</th>
-            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Budget</th>
-            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Completion</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Priority</th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Task Type</th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Deadline</th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
           </tr>
           </thead>
           <tbody>
