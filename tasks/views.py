@@ -1,7 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.utils import timezone
+from django.views import generic
 
 from tasks.models import Task
 
@@ -32,3 +34,8 @@ def index(request):
         "tasks/index.html",
         context=context
     )
+
+
+class TaskListView(LoginRequiredMixin, generic.ListView):
+    model = Task
+    paginate_by = 5
