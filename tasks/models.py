@@ -38,7 +38,7 @@ class Task(models.Model):
     )
 
     def __str__(self):
-        return f"{self.name} with deadline: {self.deadline}"
+        return self.name
 
 
 class Position(models.Model):
