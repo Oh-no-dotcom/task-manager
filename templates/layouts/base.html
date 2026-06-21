@@ -3,6 +3,7 @@ Soft UI Dashboard
 Copyright 2022 Creative Tim
 Licensed under MIT
 -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,6 +31,7 @@ Licensed under MIT
   <link id="pagestyle_dark" href="{{ ASSETS_ROOT }}/css/dark-theme-core.css" rel="stylesheet" />
 
   <!-- Specific CSS goes HERE -->
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
   {% block stylesheets %}{% endblock stylesheets %}  
 
 </head>
@@ -44,6 +46,7 @@ Licensed under MIT
     {% block content %}{% endblock content %}
 
   </main>
+
 
   <!-- Core JS Files -->
   {% include "includes/scripts.html" %}
