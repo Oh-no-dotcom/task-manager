@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.views import generic
 
-from tasks.models import Task
+from tasks.models import Task, Worker, TaskType, Position
 
 
 @login_required
@@ -38,4 +38,19 @@ def index(request):
 
 class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
+    paginate_by = 5
+
+
+class WorkerListView(LoginRequiredMixin, generic.ListView):
+    model = Worker
+    paginate_by = 5
+
+
+class TaskTypeListView(LoginRequiredMixin, generic.ListView):
+    model = TaskType
+    paginate_by = 5
+
+
+class PositionListView(LoginRequiredMixin, generic.ListView):
+    model = Position
     paginate_by = 5
