@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.utils import timezone
 from django.views import generic
 
+from tasks.form import TaskCreationForm
 from tasks.models import Task, Worker, TaskType, Position
 
 
@@ -43,7 +44,7 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
 
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     model = Task
-    fields = "__all__"
+    form_class = TaskCreationForm
 
 
 class WorkerListView(LoginRequiredMixin, generic.ListView):
