@@ -51,6 +51,16 @@
                 {% else %}
                   <span class="badge bg-gradient-info">In progress</span>
                 {% endif %}
+                <div class="mt-4">
+                  <a href="{% url 'tasks:task-update' pk=task.id %}"
+                     class="btn bg-gradient-info">
+                    Update
+                  </a>
+                  <a href="{% url 'tasks:task-delete' pk=task.id %}"
+                     class="btn bg-gradient-danger">
+                    Delete
+                  </a>
+                </div>
               </li>
             </ul>
           </div>
@@ -75,6 +85,7 @@
                   {% empty %}
                     Nobody works on this task.
                   {% endfor %}
+
                 </div>
               </li>
             </ul>
