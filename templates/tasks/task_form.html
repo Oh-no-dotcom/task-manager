@@ -10,7 +10,7 @@
 
         <div class="card">
           <div class="card-header pb-0">
-            <h4>Create Task</h4>
+            <h4>{{ object|yesno:"Update,Create" }} Task</h4>
           </div>
 
           <div class="card-body">
@@ -55,7 +55,7 @@
               </div>
 
               <button type="submit" class="btn bg-gradient-info">
-                Create Task
+                {{ object|yesno:"Update,Create" }} Task
               </button>
             </form>
           </div>
