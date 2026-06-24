@@ -22,6 +22,11 @@ def index(request):
         deadline__lt=timezone.now(),
         is_completed=False
     ).count()
+    task_list = Task.objects.filter(
+        is_completed=False
+    ).order_by(
+        "deadline"
+    )[:10]
 
     context = {
         "num_tasks": num_tasks,
@@ -29,6 +34,7 @@ def index(request):
         "completed_tasks": completed_tasks,
         "in_progress_tasks": in_progress_tasks,
         "overdue_tasks": overdue_tasks,
+        "task_list": task_list,
     }
     return render(
         request,
