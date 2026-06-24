@@ -26,7 +26,5 @@ class TaskCreationForm(forms.ModelForm):
             "task_type": forms.Select(
                 attrs={"class": "form-select"}
             ),
-            "assignees": forms.SelectMultiple(
-                attrs={"class": "form-select"}
-            ),
+            "assignees": forms.CheckboxSelectMultiple(),
         }
