@@ -85,6 +85,10 @@ class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = WorkerCreationForm
 
 
+class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
+    model = Worker
+    
+
 class TaskTypeListView(LoginRequiredMixin, generic.ListView):
     model = TaskType
     paginate_by = 5
