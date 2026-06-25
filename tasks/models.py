@@ -72,3 +72,9 @@ class Worker(AbstractUser):
 
     def __str__(self):
         return f"{self.position} - {self.username}({self.first_name} {self.last_name})"
+
+    def get_absolute_url(self):
+        return reverse(
+            "tasks:worker-detail",
+            args=[str(self.pk)]
+        )
