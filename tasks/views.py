@@ -6,7 +6,11 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views import generic
 
-from tasks.forms import TaskCreationForm, WorkerCreationForm
+from tasks.forms import (
+    TaskCreationForm,
+    WorkerCreationForm,
+    WorkerUpdateForm,
+)
 from tasks.models import (
     Task,
     Worker,
@@ -116,7 +120,7 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
 
 class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Worker
-    form_class = WorkerCreationForm
+    form_class = WorkerUpdateForm
 
 
 class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):

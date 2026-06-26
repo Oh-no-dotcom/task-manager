@@ -65,3 +65,29 @@ class WorkerCreationForm(UserCreationForm):
         self.fields["password2"].widget.attrs.update(
             {"class": "form-control"}
         )
+
+
+class WorkerUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Worker
+        fields = (
+            "username",
+            "first_name",
+            "last_name",
+            "position",
+        )
+
+        widgets = {
+            "username": forms.TextInput(
+                attrs={"class": "form-control"}
+            ),
+            "first_name": forms.TextInput(
+                attrs={"class": "form-control"}
+            ),
+            "last_name": forms.TextInput(
+                attrs={"class": "form-control"}
+            ),
+            "position": forms.Select(
+                attrs={"class": "form-select"}
+            ),
+        }

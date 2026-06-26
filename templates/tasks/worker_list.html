@@ -50,12 +50,12 @@
                       <span class="text-secondary text-xs font-weight-bold">{{ worker.tasks.count }}</span>
                     </td>
                     <td class="align-middle text-center">
-                      <a href=""
+                      <a href="{% url 'tasks:worker-update' pk=worker.id %}"
                          class="text-secondary font-weight-bold text-xs">
                         Update
                       </a>
 
-                      <a href=""
+                      <a href="{% url 'tasks:worker-delete' pk=worker.id %}"
                          class="text-secondary font-weight-bold text-xs">
                         Delete
                       </a>
