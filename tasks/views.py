@@ -114,6 +114,11 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
         return context
 
 
+class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Worker
+    form_class = WorkerCreationForm
+
+
 class TaskTypeListView(LoginRequiredMixin, generic.ListView):
     model = TaskType
     paginate_by = 5
