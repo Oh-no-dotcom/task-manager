@@ -10,6 +10,7 @@ from tasks.forms import (
     TaskCreationForm,
     WorkerCreationForm,
     WorkerUpdateForm,
+    TaksTypeCreateForm,
 )
 from tasks.models import (
     Task,
@@ -134,6 +135,11 @@ class TaskTypeListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 5
     template_name = "tasks/type_task_list.html"
     context_object_name = "type_task_list"
+
+
+class TaskTypeCreateView(LoginRequiredMixin, generic.CreateView):
+    model = TaskType
+    form_class = TaksTypeCreateForm
 
 
 class PositionListView(LoginRequiredMixin, generic.ListView):
