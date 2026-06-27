@@ -38,11 +38,11 @@
                     </td>
 
                     <td class="align-middle text-center">
-                      <a href="#" class="text-secondary font-weight-bold text-xs">
+                      <a href="{% url 'tasks:position-update' pk=position.id %}" class="text-secondary font-weight-bold text-xs">
                         Update
                       </a>
 
-                      <a href="#" class="text-secondary font-weight-bold text-xs">
+                      <a href="{% url 'tasks:position-delete' pk=position.id %}" class="text-secondary font-weight-bold text-xs">
                         Delete
                       </a>
                     </td>

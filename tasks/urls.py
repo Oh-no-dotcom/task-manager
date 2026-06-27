@@ -19,6 +19,7 @@ from .views import (
     PositionListView,
     PositionCreateView,
     PositionUpdateView,
+    PositionDeleteView,
 )
 
 app_name = "tasks"
