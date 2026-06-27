@@ -11,6 +11,7 @@ from tasks.forms import (
     WorkerCreationForm,
     WorkerUpdateForm,
     TaskTypeCreateForm,
+    PositionCreateForm,
 )
 from tasks.models import (
     Task,
@@ -160,3 +161,11 @@ class TaskTypeDeleteView(LoginRequiredMixin, generic.DeleteView):
 class PositionListView(LoginRequiredMixin, generic.ListView):
     model = Position
     paginate_by = 5
+
+
+class PositionCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Position
+    form_class = PositionCreateForm
+    template_name = "tasks/position_form.html"
+    success_url = reverse_lazy("tasks:position-list")
+
