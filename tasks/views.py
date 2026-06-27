@@ -10,7 +10,7 @@ from tasks.forms import (
     TaskCreationForm,
     WorkerCreationForm,
     WorkerUpdateForm,
-    TaksTypeCreateForm,
+    TaskTypeCreateForm,
 )
 from tasks.models import (
     Task,
@@ -139,7 +139,9 @@ class TaskTypeListView(LoginRequiredMixin, generic.ListView):
 
 class TaskTypeCreateView(LoginRequiredMixin, generic.CreateView):
     model = TaskType
-    form_class = TaksTypeCreateForm
+    form_class = TaskTypeCreateForm
+    template_name = "tasks/type_form.html"
+    success_url = reverse_lazy("tasks:task-type-list")
 
 
 class PositionListView(LoginRequiredMixin, generic.ListView):

@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Task, Worker
+from .models import Task, Worker, TaskType
 
 
 class TaskCreationForm(forms.ModelForm):
@@ -90,4 +90,15 @@ class WorkerUpdateForm(forms.ModelForm):
             "position": forms.Select(
                 attrs={"class": "form-select"}
             ),
+        }
+
+
+class TaskTypeCreateForm(forms.ModelForm):
+    class Meta:
+        model = TaskType
+        fields = ("name",)
+        widgets = {
+            "name": forms.TextInput(
+                attrs={"class": "form-control"}
+            )
         }

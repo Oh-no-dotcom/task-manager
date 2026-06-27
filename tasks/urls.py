@@ -8,7 +8,7 @@ from .views import (
     TaskUpdateView,
     TaskDeleteView,
     TaskTypeListView,
-    TaksTypeCreateView,
+    TaskTypeCreateView,
     WorkerListView,
     WorkerCreateView,
     WorkerDetailView,
@@ -77,7 +77,7 @@ urlpatterns = [
          ),
     path(
         "task-types/create/",
-        TaksTypeCreateView.as_view(),
+        TaskTypeCreateView.as_view(),
         name="type-create"
     ),
     path(
