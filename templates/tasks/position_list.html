@@ -1,0 +1,65 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Tables {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+  <div class="container-fluid py-4">
+
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-header pb-0">
+            <h6>Task types<a class="btn btn-primary" style="float: right" href="#">Add position</a>
+            </h6>
+          </div>
+          <div class="card-body px-0 pt-0 pb-2">
+            <div class="table-responsive p-0">
+              <table class="table align-items-center mb-0">
+                <thead>
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions
+                  </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for position in position_list %}
+                  <tr>
+                    <td>
+                      <div class="d-flex px-2 py-1">
+                        <div>
+                          {{ position.name }}
+                        </div>
+                      </div>
+                    </td>
+
+                    <td class="align-middle text-center">
+                      <a href="#" class="text-secondary font-weight-bold text-xs">
+                        Update
+                      </a>
+
+                      <a href="#" class="text-secondary font-weight-bold text-xs">
+                        Delete
+                      </a>
+                    </td>
+                  </tr>
+                {% empty %}
+                  <tr>
+                    <td colspan="2" class="text-center">
+                      You can create first position!
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
