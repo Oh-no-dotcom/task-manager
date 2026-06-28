@@ -12,6 +12,7 @@ from tasks.forms import (
     WorkerUpdateForm,
     TaskTypeCreateForm,
     PositionCreateForm,
+    TaskSearchForm,
 )
 from tasks.models import (
     Task,
@@ -59,6 +60,29 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
     paginate_by = 5
 
+    def get_context_data(
+            self,
+            *,
+            object_list=None,
+            **kwargs
+    ):
+        context = super(
+            TaskListView,
+            self
+        ).get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+        context["search_form"] = TaskSearchForm(
+            initial={"name": name}
+        )
+        return context
+
+
+    def get_queryset(self):
+        queryset = Task.objects.all()
+        form = TaskSearchForm(self.request.GET)
+        if form.is_valid():
+            return queryset.filter(name__icontains=form.cleaned_data["name"])
+        return queryset
 
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     model = Task
