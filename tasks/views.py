@@ -28,24 +28,30 @@ from tasks.models import (
 def index(request):
     """View function for the home page of the site."""
     num_tasks = Task.objects.all().count()
-    num_workers = get_user_model().objects.all().count()
-    completed_tasks = Task.objects.filter(is_completed=True).count()
-    in_progress_tasks = Task.objects.filter(
-        is_completed=False
-    ).count()
-    overdue_tasks = Task.objects.filter(
-        deadline__lt=timezone.now(),
-        is_completed=False
-    ).count()
-    task_list = Task.objects.filter(
-        is_completed=False
-    ).order_by(
-        "deadline"
-    )[:10]
+    completed_tasks = (
+        Task.objects
+       .filter(is_completed=True)
+       .count()
+       )
+    in_progress_tasks = (
+        Task.objects
+        .filter(is_completed=False)
+        .count()
+    )
+    overdue_tasks = (
+        Task.objects
+        .filter(deadline__lt=timezone.now(), is_completed=False)
+        .count()
+    )
+    task_list = (
+        Task.objects
+        .filter(is_completed=False)
+        .select_related("task_type")
+        .order_by("deadline")[:10]
+    )
 
     context = {
         "num_tasks": num_tasks,
-        "num_workers": num_workers,
         "completed_tasks": completed_tasks,
         "in_progress_tasks": in_progress_tasks,
         "overdue_tasks": overdue_tasks,
@@ -83,7 +89,10 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
         queryset = Task.objects.select_related("task_type")
         form = TaskSearchForm(self.request.GET)
         if form.is_valid():
-            return queryset.filter(name__icontains=form.cleaned_data["name"])
+            return (
+                queryset
+                .filter(name__icontains=form.cleaned_data["name"])
+            )
         return queryset
 
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
