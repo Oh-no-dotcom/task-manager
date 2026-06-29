@@ -226,6 +226,39 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
     def get_object(self, queryset=None):
         return self.request.user
 
+    def get_context_data(
+            self,
+            *,
+            object_list=None,
+            **kwargs
+    ):
+        context = super(
+            ProfileView,
+            self
+        ).get_context_data(**kwargs)
+
+        worker = self.object
+
+        context["tasks"] = worker.tasks.filter(
+            is_completed=False
+        ).order_by(
+            "deadline"
+        )[:5]
+
+        context["completed_tasks_count"] = worker.tasks.filter(
+            is_completed=True
+        ).count()
+
+        return context
+
+
+    def get_queryset(self):
+        return (
+            Worker.
+            objects.
+            select_related("position")
+        )
+
 
 class TaskTypeListView(LoginRequiredMixin, generic.ListView):
     model = TaskType
