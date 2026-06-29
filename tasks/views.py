@@ -134,7 +134,7 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
             select_related("position").
             annotate(task_count=Count("tasks")
         ))
-        
+
         form = WorkerSearchForm(self.request.GET)
         if form.is_valid():
             return queryset.filter(
@@ -175,6 +175,14 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
         ).count()
 
         return context
+
+
+    def get_queryset(self):
+        return (
+            Worker.
+            objects.
+            select_related("position")
+        )
 
 
 class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
