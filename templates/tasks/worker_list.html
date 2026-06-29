@@ -54,7 +54,7 @@
                       {{ worker.position }}
                     </td>
                     <td class="align-middle text-center">
-                      <span class="text-secondary text-xs font-weight-bold">{{ worker.tasks.count }}</span>
+                      <span class="text-secondary text-xs font-weight-bold">{{ worker.task_count }}</span>
                     </td>
                     <td class="align-middle text-center">
                       <a href="{% url 'tasks:worker-update' pk=worker.id %}"

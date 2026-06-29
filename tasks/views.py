@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -128,10 +129,17 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
 
 
     def get_queryset(self):
-        queryset = Worker.objects.all()
+        queryset = (
+            Worker.objects.
+            select_related("position").
+            annotate(task_count=Count("tasks")
+        ))
+        
         form = WorkerSearchForm(self.request.GET)
         if form.is_valid():
-            return queryset.filter(username__icontains=form.cleaned_data["username"])
+            return queryset.filter(
+                username__icontains=form.cleaned_data["username"]
+            )
         return queryset
 
 
