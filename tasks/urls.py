@@ -20,6 +20,7 @@ from .views import (
     PositionCreateView,
     PositionUpdateView,
     PositionDeleteView,
+    ProfileView,
 )
 
 app_name = "tasks"
@@ -115,4 +116,9 @@ urlpatterns = [
         PositionDeleteView.as_view(),
         name="position-delete"
         ),
+    path(
+        "profile/",
+        ProfileView.as_view(),
+        name="profile"
+    )
 ]

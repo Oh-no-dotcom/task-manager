@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, Prefetch
@@ -217,6 +216,15 @@ class WorkerDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Worker
     success_url = reverse_lazy("tasks:worker-list")
     template_name = "tasks/confirm_delete.html"
+
+
+class ProfileView(LoginRequiredMixin, generic.DetailView):
+    model = Worker
+    template_name = "tasks/profile.html"
+    context_object_name = "worker"
+
+    def get_object(self, queryset=None):
+        return self.request.user
 
 
 class TaskTypeListView(LoginRequiredMixin, generic.ListView):
