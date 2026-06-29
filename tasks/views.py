@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count
+from django.db.models import Count, Prefetch
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -105,6 +105,20 @@ class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     model = Task
+
+    def get_queryset(self):
+        return (
+            Task.objects
+            .select_related("task_type")
+            .prefetch_related(
+                Prefetch(
+                    "assignees",
+                    queryset=Worker.objects.select_related(
+                        "position"
+                    ),
+                )
+            )
+        )
 
 
 class WorkerListView(LoginRequiredMixin, generic.ListView):
