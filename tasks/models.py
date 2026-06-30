@@ -7,6 +7,9 @@ from django.urls import reverse
 class TaskType(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
+    class Meta:
+        ordering = ["name"]
+
     def __str__(self):
         return self.name
 
@@ -38,6 +41,9 @@ class Task(models.Model):
         related_name="tasks",
     )
 
+    class Meta:
+        ordering = ["name"]
+
     def __str__(self):
         return self.name
 
@@ -54,6 +60,9 @@ class Position(models.Model):
         unique=True,
     )
 
+    class Meta:
+        ordering = ["name"]
+
     def __str__(self):
         return self.name
 
@@ -68,7 +77,7 @@ class Worker(AbstractUser):
     )
 
     class Meta:
-        ordering = ["position"]
+        ordering = ["username"]
 
     def __str__(self):
         return f"{self.position} - {self.username}({self.first_name} {self.last_name})"
