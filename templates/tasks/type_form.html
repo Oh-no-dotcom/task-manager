@@ -20,6 +20,11 @@
               <div class="mb-3">
                 <label>Name</label>
                 {{ form.name }}
+                {% if form.name.errors %}
+                  <div class="text-danger small mt-1">
+                    {{ form.name.errors }}
+                  </div>
+                {% endif %}
               </div>
 
               <button type="submit" class="btn bg-gradient-info">
