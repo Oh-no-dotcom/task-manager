@@ -48,10 +48,7 @@ class Task(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse(
-            "tasks:task-detail",
-            args=[str(self.pk)]
-        )
+        return reverse("tasks:task-detail", args=[str(self.pk)])
 
 
 class Position(models.Model):
@@ -80,10 +77,10 @@ class Worker(AbstractUser):
         ordering = ["username"]
 
     def __str__(self):
-        return f"{self.position} - {self.username}({self.first_name} {self.last_name})"
+        return (
+            f"{self.position} - {self.username}"
+            f"({self.first_name} {self.last_name})"
+        )
 
     def get_absolute_url(self):
-        return reverse(
-            "tasks:worker-detail",
-            args=[str(self.pk)]
-        )
+        return reverse("tasks:worker-detail", args=[str(self.pk)])

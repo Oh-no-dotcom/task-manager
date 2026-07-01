@@ -2,82 +2,81 @@
 
 {% block content %}
   <div class="container-fluid py-4">
-  <form action="" method="get" class="d-flex gap-2">
-            {{ search_form }}
-            <button type="submit" class="btn btn-info">
-              Search
-            </button>
-          </form>
-          </div>
+    <form action="" method="get" class="d-flex gap-2">
+      {{ search_form }}
+      <button type="submit" class="btn btn-info">
+        Search
+      </button>
+    </form>
+  </div>
 
-    <div class="row">
-      <div class="col-12">
-        <div class="card mb-4">
-          <div class="card-header pb-0">
-            <h6>Workers<a class="btn btn-primary" style="float: right" href="{% url 'tasks:worker-create' %}">Add
-              worker</a>
-            </h6>
-          </div>
-          <div class="card-body px-0 pt-0 pb-2">
-            <div class="table-responsive p-0">
-              <table class="table align-items-center mb-0">
-                <thead>
+  <div class="row">
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header pb-0">
+          <h6>Workers<a class="btn btn-primary" style="float: right" href="{% url 'tasks:worker-create' %}">Add
+            worker</a>
+          </h6>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+              <thead>
+              <tr>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Username</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Full name</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Position
+                </th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tasks
+                </th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              {% for worker in worker_list %}
                 <tr>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Username</th>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Full name</th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Position
-                  </th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tasks
-                  </th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions
-                  </th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for worker in worker_list %}
-                  <tr>
-                    <td>
-                      <div class="d-flex px-2 py-1">
-                        <div>
-                          <a href="{% url 'tasks:worker-detail' pk=worker.id %}">{{ worker.username }}</a>
-                        </div>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div>
+                        <a href="{% url 'tasks:worker-detail' pk=worker.id %}">{{ worker.username }}</a>
                       </div>
-                    </td>
-                    <td>
-                      <div class="d-flex px-2 py-1">
-                        <div>
-                          <a href="{% url 'tasks:worker-detail' pk=worker.id %}">{{ worker.get_full_name }}</a>
-                        </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div>
+                        <a href="{% url 'tasks:worker-detail' pk=worker.id %}">{{ worker.get_full_name }}</a>
                       </div>
-                    </td>
-                    <td class="align-middle text-center text-sm">
-                      {{ worker.position }}
-                    </td>
-                    <td class="align-middle text-center">
-                      <span class="text-secondary text-xs font-weight-bold">{{ worker.task_count }}</span>
-                    </td>
-                    <td class="align-middle text-center">
-                      <a href="{% url 'tasks:worker-update' pk=worker.id %}"
-                         class="text-secondary font-weight-bold text-xs">
-                        Update
-                      </a>
+                    </div>
+                  </td>
+                  <td class="align-middle text-center text-sm">
+                    {{ worker.position }}
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{ worker.task_count }}</span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <a href="{% url 'tasks:worker-update' pk=worker.id %}"
+                       class="text-secondary font-weight-bold text-xs">
+                      Update
+                    </a>
 
-                      <a href="{% url 'tasks:worker-delete' pk=worker.id %}"
-                         class="text-secondary font-weight-bold text-xs">
-                        Delete
-                      </a>
-                    </td>
-                  </tr>
-                {% empty %}
-                  <tr>
-                    <td colspan="5" class="text-center">
-                      No workers found!
-                    </td>
-                  </tr>
-                {% endfor %}
-                </tbody>
-              </table>
-            </div>
+                    <a href="{% url 'tasks:worker-delete' pk=worker.id %}"
+                       class="text-secondary font-weight-bold text-xs">
+                      Delete
+                    </a>
+                  </td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="5" class="text-center">
+                    No workers found!
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

@@ -15,36 +15,20 @@ from tasks.forms import (
     TaskSearchForm,
     WorkerSearchForm,
 )
-from tasks.models import (
-    Task,
-    Worker,
-    TaskType,
-    Position
-)
+from tasks.models import Task, Worker, TaskType, Position
 
 
 @login_required
 def index(request):
     """View function for the home page of the site."""
     num_tasks = Task.objects.all().count()
-    completed_tasks = (
-        Task.objects
-       .filter(is_completed=True)
-       .count()
-       )
-    in_progress_tasks = (
-        Task.objects
-        .filter(is_completed=False)
-        .count()
-    )
-    overdue_tasks = (
-        Task.objects
-        .filter(deadline__lt=timezone.now(), is_completed=False)
-        .count()
-    )
+    completed_tasks = Task.objects.filter(is_completed=True).count()
+    in_progress_tasks = Task.objects.filter(is_completed=False).count()
+    overdue_tasks = Task.objects.filter(
+        deadline__lt=timezone.now(), is_completed=False
+    ).count()
     task_list = (
-        Task.objects
-        .filter(is_completed=False)
+        Task.objects.filter(is_completed=False)
         .select_related("task_type")
         .order_by("deadline")[:10]
     )
@@ -56,43 +40,26 @@ def index(request):
         "overdue_tasks": overdue_tasks,
         "task_list": task_list,
     }
-    return render(
-        request,
-        "tasks/index.html",
-        context=context
-    )
+    return render(request, "tasks/index.html", context=context)
 
 
 class TaskListView(LoginRequiredMixin, generic.ListView):
     model = Task
     paginate_by = 5
 
-    def get_context_data(
-            self,
-            *,
-            object_list=None,
-            **kwargs
-    ):
-        context = super(
-            TaskListView,
-            self
-        ).get_context_data(**kwargs)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(TaskListView, self).get_context_data(**kwargs)
         name = self.request.GET.get("name", "")
-        context["search_form"] = TaskSearchForm(
-            initial={"name": name}
-        )
+        context["search_form"] = TaskSearchForm(initial={"name": name})
         return context
-
 
     def get_queryset(self):
         queryset = Task.objects.select_related("task_type")
         form = TaskSearchForm(self.request.GET)
         if form.is_valid():
-            return (
-                queryset
-                .filter(name__icontains=form.cleaned_data["name"])
-            )
+            return queryset.filter(name__icontains=form.cleaned_data["name"])
         return queryset
+
 
 class TaskCreateView(LoginRequiredMixin, generic.CreateView):
     model = Task
@@ -115,16 +82,10 @@ class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     model = Task
 
     def get_queryset(self):
-        return (
-            Task.objects
-            .select_related("task_type")
-            .prefetch_related(
-                Prefetch(
-                    "assignees",
-                    queryset=Worker.objects.select_related(
-                        "position"
-                    ),
-                )
+        return Task.objects.select_related("task_type").prefetch_related(
+            Prefetch(
+                "assignees",
+                queryset=Worker.objects.select_related("position"),
             )
         )
 
@@ -133,29 +94,18 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
     model = Worker
     paginate_by = 5
 
-    def get_context_data(
-            self,
-            *,
-            object_list=None,
-            **kwargs
-    ):
-        context = super(
-            WorkerListView,
-            self
-        ).get_context_data(**kwargs)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(WorkerListView, self).get_context_data(**kwargs)
         username = self.request.GET.get("username", "")
         context["search_form"] = WorkerSearchForm(
             initial={"username": username}
         )
         return context
 
-
     def get_queryset(self):
-        queryset = (
-            Worker.objects.
-            select_related("position").
-            annotate(task_count=Count("tasks")
-        ))
+        queryset = Worker.objects.select_related("position").annotate(
+            task_count=Count("tasks")
+        )
 
         form = WorkerSearchForm(self.request.GET)
         if form.is_valid():
@@ -173,22 +123,12 @@ class WorkerCreateView(LoginRequiredMixin, generic.CreateView):
 class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
     model = Worker
 
-    def get_context_data(
-            self,
-            *,
-            object_list=None,
-            **kwargs
-    ):
-        context = super(
-            WorkerDetailView,
-            self
-        ).get_context_data(**kwargs)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(WorkerDetailView, self).get_context_data(**kwargs)
 
         worker = self.object
 
-        context["tasks"] = worker.tasks.filter(
-            is_completed=False
-        ).order_by(
+        context["tasks"] = worker.tasks.filter(is_completed=False).order_by(
             "deadline"
         )[:5]
 
@@ -198,13 +138,8 @@ class WorkerDetailView(LoginRequiredMixin, generic.DetailView):
 
         return context
 
-
     def get_queryset(self):
-        return (
-            Worker.
-            objects.
-            select_related("position")
-        )
+        return Worker.objects.select_related("position")
 
 
 class WorkerUpdateView(LoginRequiredMixin, generic.UpdateView):
@@ -226,22 +161,12 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
     def get_object(self, queryset=None):
         return self.request.user
 
-    def get_context_data(
-            self,
-            *,
-            object_list=None,
-            **kwargs
-    ):
-        context = super(
-            ProfileView,
-            self
-        ).get_context_data(**kwargs)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(ProfileView, self).get_context_data(**kwargs)
 
         worker = self.object
 
-        context["tasks"] = worker.tasks.filter(
-            is_completed=False
-        ).order_by(
+        context["tasks"] = worker.tasks.filter(is_completed=False).order_by(
             "deadline"
         )[:5]
 
@@ -251,13 +176,8 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
 
         return context
 
-
     def get_queryset(self):
-        return (
-            Worker.
-            objects.
-            select_related("position")
-        )
+        return Worker.objects.select_related("position")
 
 
 class TaskTypeListView(LoginRequiredMixin, generic.ListView):
