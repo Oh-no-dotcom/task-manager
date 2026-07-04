@@ -105,7 +105,7 @@ class WorkerListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         queryset = Worker.objects.select_related("position").annotate(
             task_count=Count("tasks")
-        )
+        ).order_by("username")
 
         form = WorkerSearchForm(self.request.GET)
         if form.is_valid():

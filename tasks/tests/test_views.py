@@ -6,6 +6,7 @@ from django.utils import timezone
 from tasks.models import Task, TaskType, Position
 
 TASKS_URL = reverse_lazy("tasks:task-list")
+WORKERS_URL = reverse_lazy("tasks:worker-list")
 
 
 class PublicTaskTest(TestCase):
@@ -92,4 +93,25 @@ class PrivateWorkerTest(TestCase):
         self.assertEqual(new_worker.first_name, form_data["first_name"])
         self.assertEqual(new_worker.last_name, form_data["last_name"])
         self.assertEqual(new_worker.position.id, form_data["position"])
+
+    def test_retrieve_workers(self):
+        get_user_model().objects.create(
+            username="test1234",
+            password="test123",
+            position=self.position
+        )
+        get_user_model().objects.create(
+            username="test2",
+            password="test1234",
+            position=self.position
+        )
+        response = self.client.get(WORKERS_URL)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "tasks/worker_list.html")
+        drivers = get_user_model().objects.all()
+        self.assertEqual(
+            list(response.context["worker_list"]),
+            list(drivers),
+        )
+
 
