@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils import timezone
 
 from tasks.models import Task, TaskType, Position
@@ -62,3 +62,34 @@ class PrivateTaskTest(TestCase):
         self.assertEqual(list(tasks), list(expected))
         self.assertTemplateUsed(response, "tasks/task_list.html")
         self.assertEqual(len(tasks), 1)
+
+
+class PrivateWorkerTest(TestCase):
+    def setUp(self):
+        self.position = Position.objects.create(name="Developer")
+        self.worker = get_user_model().objects.create_user(
+            username="John",
+            password="test123",
+            position=self.position,
+        )
+        self.client.force_login(self.worker)
+
+    def test_create_worker(self):
+        form_data = {
+            "username": "Kent",
+            "password1": "test12344321",
+            "password2": "test12344321",
+            "first_name": "Joe",
+            "last_name": "Test",
+            "position": self.position.id,
+        }
+        self.client.post(
+            reverse("tasks:worker-create"),
+            data=form_data,
+        )
+        new_worker = get_user_model().objects.get(username=form_data["username"])
+
+        self.assertEqual(new_worker.first_name, form_data["first_name"])
+        self.assertEqual(new_worker.last_name, form_data["last_name"])
+        self.assertEqual(new_worker.position.id, form_data["position"])
+
