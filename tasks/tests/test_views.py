@@ -114,4 +114,23 @@ class PrivateWorkerTest(TestCase):
             list(drivers),
         )
 
-
+    def test_search_worker(self):
+        get_user_model().objects.create(
+            username="Ivan",
+            password="Ivan123",
+            position=self.position
+        )
+        get_user_model().objects.create(
+            username="Oleg",
+            password="Oleg123",
+            position=self.position
+        )
+        get_user_model().objects.create(
+            username="Luke",
+            password="Luke123",
+            position=self.position
+        )
+        response = self.client.get(WORKERS_URL, {"username": "Ivan"})
+        workers = response.context["worker_list"]
+        expected = get_user_model().objects.filter(username__icontains="Ivan")
+        self.assertEqual(list(workers), list(expected))
