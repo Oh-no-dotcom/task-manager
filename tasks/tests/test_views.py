@@ -90,7 +90,9 @@ class PrivateWorkerTest(TestCase):
             reverse("tasks:worker-create"),
             data=form_data,
         )
-        new_worker = get_user_model().objects.get(username=form_data["username"])
+        new_worker = get_user_model().objects.get(
+            username=form_data["username"]
+        )
 
         self.assertEqual(new_worker.first_name, form_data["first_name"])
         self.assertEqual(new_worker.last_name, form_data["last_name"])
@@ -174,6 +176,7 @@ class PrivateTaskTypeTest(TestCase):
     def test_retrieve_task_types(self):
         TaskType.objects.create(name="Test Type")
         TaskType.objects.create(name="Test Type2")
+
         response = self.client.get(TASK_TYPE_URL)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "tasks/type_task_list.html")

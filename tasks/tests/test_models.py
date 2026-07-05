@@ -35,8 +35,4 @@ class ModelsTest(TestCase):
             first_name="John",
             last_name="Smith",
         )
-        self.assertEqual(
-            str(worker),
-            f"{position} - {worker.username}"
-            f"({worker.first_name} {worker.last_name})"
-        )
+        self.assertEqual(str(worker), "Developer - john_s(John Smith)")

@@ -24,7 +24,7 @@ class WorkerCreationFormTest(TestCase):
             "password2": "user12test",
             "first_name": "Test first",
             "last_name": "Test last",
-            "position": self.position.id
+            "position": self.position.id,
         }
 
         form = WorkerCreationForm(data=form_data)
