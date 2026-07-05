@@ -2,7 +2,12 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.utils import timezone
 
-from tasks.forms import WorkerCreationForm, TaskCreationForm, TaskSearchForm
+from tasks.forms import (
+    WorkerCreationForm,
+    TaskCreationForm,
+    TaskSearchForm,
+    WorkerSearchForm,
+)
 from tasks.models import Position, TaskType
 
 
@@ -12,7 +17,7 @@ class WorkerCreationFormTest(TestCase):
             name="Developer",
         )
 
-    def test_form_is_valid(self):
+    def test_worker_creation_form_is_valid(self):
         form_data = {
             "username": "new_user",
             "password1": "user12test",
@@ -38,7 +43,7 @@ class TaskCreationFormTest(TestCase):
             position=self.position,
         )
 
-    def test_form_is_valid(self):
+    def test_task_creation_form_is_valid(self):
         form_data = {
             "name": "Test name",
             "deadline": timezone.now(),
@@ -60,3 +65,12 @@ class TaskSearchFormTest(TestCase):
         form = TaskSearchForm(data={})
         self.assertTrue(form.is_valid())
 
+
+class WorkerSearchFormTest(TestCase):
+    def test_search_form_is_valid(self):
+        form = WorkerSearchForm(data={"username": "Joe"})
+        self.assertTrue(form.is_valid())
+
+    def test_search_form_empty_is_valid(self):
+        form = WorkerSearchForm(data={})
+        self.assertTrue(form.is_valid())
