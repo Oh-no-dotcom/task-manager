@@ -7,6 +7,7 @@ from tasks.models import Task, TaskType, Position
 
 TASKS_URL = reverse_lazy("tasks:task-list")
 WORKERS_URL = reverse_lazy("tasks:worker-list")
+POSITION_URL = reverse_lazy("tasks:position-list")
 
 
 class PublicTaskTest(TestCase):
@@ -134,3 +135,26 @@ class PrivateWorkerTest(TestCase):
         workers = response.context["worker_list"]
         expected = get_user_model().objects.filter(username__icontains="Ivan")
         self.assertEqual(list(workers), list(expected))
+
+
+class PrivatePositionTest(TestCase):
+    def setUp(self):
+        self.position = Position.objects.create(name="Developer")
+        self.worker = get_user_model().objects.create_user(
+            username="John",
+            password="test123",
+            position=self.position
+        )
+        self.client.force_login(self.worker)
+
+    def test_retrieve_positions(self):
+        Position.objects.create(name="Test Position")
+        Position.objects.create(name="Test Position2")
+        response = self.client.get(POSITION_URL)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "tasks/position_list.html")
+        positions = Position.objects.all()
+        self.assertEqual(
+            list(response.context["position_list"]),
+            list(positions),
+        )
