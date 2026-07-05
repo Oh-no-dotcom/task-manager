@@ -8,6 +8,7 @@ from tasks.models import Task, TaskType, Position
 TASKS_URL = reverse_lazy("tasks:task-list")
 WORKERS_URL = reverse_lazy("tasks:worker-list")
 POSITION_URL = reverse_lazy("tasks:position-list")
+TASK_TYPE_URL = reverse_lazy("tasks:task-type-list")
 
 
 class PublicTaskTest(TestCase):
@@ -96,12 +97,12 @@ class PrivateWorkerTest(TestCase):
         self.assertEqual(new_worker.position.id, form_data["position"])
 
     def test_retrieve_workers(self):
-        get_user_model().objects.create(
+        get_user_model().objects.create_user(
             username="test1234",
             password="test123",
             position=self.position
         )
-        get_user_model().objects.create(
+        get_user_model().objects.create_user(
             username="test2",
             password="test1234",
             position=self.position
@@ -109,24 +110,24 @@ class PrivateWorkerTest(TestCase):
         response = self.client.get(WORKERS_URL)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "tasks/worker_list.html")
-        drivers = get_user_model().objects.all()
+        workers = get_user_model().objects.all()
         self.assertEqual(
             list(response.context["worker_list"]),
-            list(drivers),
+            list(workers),
         )
 
     def test_search_worker(self):
-        get_user_model().objects.create(
+        get_user_model().objects.create_user(
             username="Ivan",
             password="Ivan123",
             position=self.position
         )
-        get_user_model().objects.create(
+        get_user_model().objects.create_user(
             username="Oleg",
             password="Oleg123",
             position=self.position
         )
-        get_user_model().objects.create(
+        get_user_model().objects.create_user(
             username="Luke",
             password="Luke123",
             position=self.position
@@ -157,4 +158,27 @@ class PrivatePositionTest(TestCase):
         self.assertEqual(
             list(response.context["position_list"]),
             list(positions),
+        )
+
+
+class PrivateTaskTypeTest(TestCase):
+    def setUp(self):
+        self.position = Position.objects.create(name="Developer")
+        self.worker = get_user_model().objects.create_user(
+            username="John",
+            password="test123",
+            position=self.position
+        )
+        self.client.force_login(self.worker)
+
+    def test_retrieve_task_types(self):
+        TaskType.objects.create(name="Test Type")
+        TaskType.objects.create(name="Test Type2")
+        response = self.client.get(TASK_TYPE_URL)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "tasks/type_task_list.html")
+        task_types = TaskType.objects.all()
+        self.assertEqual(
+            list(response.context["type_task_list"]),
+            list(task_types),
         )
