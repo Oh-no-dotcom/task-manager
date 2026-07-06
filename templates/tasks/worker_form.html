@@ -1,0 +1,35 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+
+
+  <div class="container-fluid py-4">
+
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+
+        <div class="card">
+          <div class="card-header pb-0">
+            <h4>{{ object|yesno:"Update,Create" }} Worker</h4>
+          </div>
+
+          <div class="card-body">
+            <form method="post">
+              {% csrf_token %}
+              
+              {{ form }}
+
+              <button type="submit" class="btn bg-gradient-info">
+                {{ object|yesno:"Update,Create" }}
+              </button>
+              <a href="javascript:history.back()" class="btn btn-dark">
+                Cancel
+              </a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
