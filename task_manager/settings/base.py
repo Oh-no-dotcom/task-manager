@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-insecure-)1!-4c&(%2ju9&xum71h_4$y1!))@w$3xw3!7fdbnjalq*bv^-")
+SECRET_KEY = os.environ["SECRET_KEY"]
 
 ASSETS_ROOT = "/static/assets"
 
